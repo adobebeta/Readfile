@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class ReadfileFragment extends Fragment {
+    TextView textField;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,7 +26,7 @@ public class ReadfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Button eieiBtn = (Button)getView().findViewById(R.id.readBtn);
-        final TextView textField = (TextView)getView().findViewById(R.id.text);
+        textField = (TextView)getView().findViewById(R.id.text);
         eieiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,12 +41,34 @@ public class ReadfileFragment extends Fragment {
                 }catch (IOException ex){
                     ex.printStackTrace();
                 }
-
-                textField.setText(text);
+                initSplitTextToArray(text);
+//                textField.setText(text);
             }
 
         });
+    }
 
+    void initSplitTextToArray(String text){
+        ArrayList<ArrayList<String>> myArray = new ArrayList<ArrayList<String>>();
+        ArrayList<String> stringArray = new ArrayList<String>();
+        String[] splitArray = text.split(" ");
+        for (int i = 0; i < splitArray.length; i++) {
 
+            stringArray.add(splitArray[i]);
+        }
+        myArray.add(stringArray);
+
+        // printing all values
+        String paragraph = "";
+        for (int i = 0; i < myArray.size(); i++) { //รายชื่อ
+            for (int j = 0; j < myArray.get(i).size(); j++) { //ข้อมูลของแต่ละคน
+
+//                System.out.println("values of index " + i + " are :"
+//                        + myArray.get(i).get(j));
+                paragraph = paragraph +" "+ (myArray.get(i).get(j)).toString() ;
+
+            }
+        }
+        textField.setText(paragraph);
     }
 }
